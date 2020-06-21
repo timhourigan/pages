@@ -4,7 +4,7 @@ How to setup libsecret as a git credentials helper on Ubuntu 20.04.
 
 ```shell
 # Install necessary packages
-$ sudo apt-get install libsecret-1-dev 
+$ sudo apt-get install libsecret-1-dev
 
 # Make
 $ sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
@@ -17,7 +17,7 @@ git config --global credential.helper /usr/share/doc/git/contrib/credential/libs
 
 # Additional information
 # Ubuntu version
-$ cat /etc/lsb-release 
+$ cat /etc/lsb-release
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
 DISTRIB_CODENAME=focal
@@ -34,6 +34,6 @@ How to setup a Personal Access Token in Github:
 https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
 
 
-## Sources
+## Resources
 https://stackoverflow.com/a/40312117
 https://wiki.gnome.org/Projects/Libsecret
