@@ -28,8 +28,10 @@ $ sudo docker run hello-world
 ...
 # (Optional) Test Docker with interactive Ubuntu
 $ sudo docker run -it ubuntu bash
-# (Optional) All Docker to be run without root - Note, can be used to gain root
-$ sudo usermod -aG docker <username>
+# (Optional) All Docker to be run without root
+# Note 1 - Can be used to gain root
+# Note 2 - May require a new session to be effective ($ groups)
+$ sudo usermod -aG docker $USER
 ```
 
 ### Install Docker Compose
@@ -51,6 +53,8 @@ $ docker-compose --version
 * Ubuntu 20.04 (>17.10) includes systemd-resolved, which acts as a DNS stub resolver, preventing Pi-Hole from listening to port 53. This needs to be disabled for Pi-Hole to work.
 
 ```shell
+# Disable the DNS Stub resolver
+$ sudo sed -r -i.orig 's/#?DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
 # Remove the existing resolv.conf symbolic link, which is pointing to /run/systemd/resolve/stub-resolv.conf
 $ sudo rm /etc/resolv.conf
 # Create a new resolv.conf symbolic link, pointing to standard resolv.conf
@@ -61,10 +65,66 @@ $ systemctl restart systemd-resolved
 $ sudo systemctl restart systemd-resolved
 ```
 
+## Setup /etc/environment
+
+* Setup the `/etc/environment` files with environment information to be used by the Docker Compose file.
+
+```shell
+# Add Timezone - See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# Note - May require a new session to be effective ($ env | grep TZ)
+echo 'TZ="Antarctica/South_Pole"' | sudo tee -a /etc/environment
+```
+
+* FIXME - Logout and in again?
+
+## Docker Compose
+
+* Create a Pi-Hole Docker Compose file
+
+```yaml
+version: "3"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: ${TZ}
+      DNS1: 1.1.1.1
+      DNS2: 1.0.0.1
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    # Only required for DHCP, removing
+    # cap_add:
+    #  - NET_ADMIN
+    restart: unless-stopped
+```
+
+## Run Pi-Hole
+
+* Run Pi-Hole for the first time.
+
+```shell
+$ docker-compose --file docker-compose-pihole.yml up
+```
+
 ## Todo
 * /etc/environment
 * Pi-Hole
 * Reverse proxy
+
+
 
 ## Related Information
 
@@ -73,3 +133,5 @@ FIXME
 ## Resources
 https://docs.docker.com/engine/install/ubuntu/
 https://github.com/pi-hole/docker-pi-hole/#running-pi-hole-docker
+https://evanshortiss.com/raspberry-pi/2019/11/13/pi-hole-setup.html
+https://www.smarthomebeginner.com/run-pihole-in-docker-on-ubuntu-with-reverse-proxy/

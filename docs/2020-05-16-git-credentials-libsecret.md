@@ -27,13 +27,7 @@ $ git --version
 git version 2.25.1
 ```
 
-## Related Information
-
-How to setup a Personal Access Token in Github:
-
-https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-
-
 ## Resources
+https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
 https://stackoverflow.com/a/40312117
 https://wiki.gnome.org/Projects/Libsecret
