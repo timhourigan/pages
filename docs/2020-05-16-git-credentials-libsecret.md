@@ -4,7 +4,7 @@ How to setup libsecret as a git credentials helper on Ubuntu 20.04.
 
 ```shell
 # Install necessary packages
-$ sudo apt-get install libsecret-1-dev
+$ sudo apt-get install libsecret-1-dev git
 
 # Make
 $ sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
