@@ -1,6 +1,6 @@
 # Git credentials with libsecret
 
-How to setup libsecret as a git credentials helper on Ubuntu 20.04.
+* How to setup libsecret as a git credentials helper on Ubuntu 20.04.
 
 ```shell
 # Install necessary packages
@@ -28,6 +28,7 @@ git version 2.25.1
 ```
 
 ## Resources
-https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-https://stackoverflow.com/a/40312117
-https://wiki.gnome.org/Projects/Libsecret
+
+* https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+* https://stackoverflow.com/a/40312117
+* https://wiki.gnome.org/Projects/Libsecret
